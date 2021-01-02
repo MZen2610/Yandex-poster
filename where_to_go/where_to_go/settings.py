@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posters.apps.PostersConfig',
     'places.apps.PlacesConfig',
 ]
 
@@ -125,5 +124,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'posters/static'),
+    os.path.join(BASE_DIR, 'where_to_go/static'),
 ]
