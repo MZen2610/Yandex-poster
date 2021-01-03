@@ -35,4 +35,4 @@ class Images(models.Model):
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
-        # ordering = ['-num']
+        ordering = ['-num']
