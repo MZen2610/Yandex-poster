@@ -1,41 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
 from .models import Place, Images
-
-
-def home(request):
-    places = Place.objects.all()
-
-    features = []
-    for item in places:
-        features.append(
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [
-                        item.lng,
-                        item.lat
-                    ]
-                },
-                "properties": {
-                    "title": item.title,
-                    "placeId": item.id,
-                    "detailsUrl": "https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/master/places/moscow_legends.json"
-                }
-            }
-        )
-
-    places_geojson = {
-        "type": "FeatureCollection",
-        "features": features
-    }
-
-    context = {
-        'places_geojson': places_geojson,
-    }
-    return render(request, template_name='base.html', context=context)
 
 
 def get_place(request, place_id):
@@ -61,3 +28,37 @@ def get_place(request, place_id):
                         safe=False,
                         json_dumps_params={"ensure_ascii": False, 'indent': 4},
                         )
+
+
+def home(request):
+    places = Place.objects.all()
+
+    features = []
+    for item in places:
+        features.append(
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                        item.lng,
+                        item.lat
+                    ]
+                },
+                "properties": {
+                    "title": item.title,
+                    "placeId": item.id,
+                    "detailsUrl": reverse('place', kwargs={'place_id': item.pk})
+                }
+            }
+        )
+
+    places_geojson = {
+        "type": "FeatureCollection",
+        "features": features
+    }
+
+    context = {
+        'places_geojson': places_geojson,
+    }
+    return render(request, template_name='base.html', context=context)
