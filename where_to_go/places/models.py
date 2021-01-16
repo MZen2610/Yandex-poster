@@ -19,8 +19,8 @@ class Place(models.Model):
 
 class Images(models.Model):
     title = models.ForeignKey('Place', on_delete=models.SET_NULL, null=True, verbose_name='Место', blank=False)
-    num = models.IntegerField(verbose_name='Номер')
-    image = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Изображение')
+    num = models.IntegerField(verbose_name='Позиция')
+    image = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Изображение', null=True)
 
     def __str__(self):
         return f"{self.num} {self.title}"
